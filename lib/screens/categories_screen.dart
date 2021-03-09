@@ -14,6 +14,7 @@ class CategoriesScreen extends StatelessWidget {
         title: Text('Lets cook'),
       ),
       body: GridView(
+        padding: const EdgeInsets.all(15.0),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200,
             childAspectRatio: 3 / 2,
