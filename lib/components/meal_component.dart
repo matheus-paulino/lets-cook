@@ -11,10 +11,18 @@ class MealComponent extends StatelessWidget {
   );
 
   void _selectedMeal(BuildContext context) {
-    Navigator.of(context).pushNamed(
+    Navigator.of(context)
+        .pushNamed(
       AppRoutes.MEAL_DETAIL,
       arguments: meal,
-    );
+    )
+        .then((result) {
+      if (result == null) {
+        print('no result');
+      } else {
+        print(result);
+      }
+    });
   }
 
   @override
