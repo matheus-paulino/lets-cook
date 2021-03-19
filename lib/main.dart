@@ -8,6 +8,7 @@ import 'screens/meal_detail_screen.dart';
 import 'screens/errors/route_not_found_screen.dart';
 import 'models/meal.dart';
 import 'data/dummy_data.dart';
+import 'models/settings.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,6 +19,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<Meal> _availableMeals = DUMMY_MEALS;
+
+  void _filterMeals(Settings settings) {
+    setState(() {
+      _availableMeals = DUMMY_MEALS.where((meal) {
+        final filterGluten = settings.isGlutenFree && !meal.isGlutenFree;
+        final filterLactose = settings.isLactoseFree && !meal.isLactoseFree;
+        final filterVegan = settings.isVegan && !meal.isVegan;
+        final filterVegetarian = settings.isVegetarian && !meal.isVegetarian;
+
+        return !filterGluten &&
+            !filterLactose &&
+            !filterVegan &&
+            !filterVegetarian;
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.CATEGORIES_MEALS: (_) =>
             CategoriesMealsScreen(_availableMeals),
         AppRoutes.MEAL_DETAIL: (_) => MealDetailSreen(),
-        AppRoutes.SETTINGS: (_) => SettingsScreen()
+        AppRoutes.SETTINGS: (_) => SettingsScreen(_filterMeals)
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
